@@ -61,9 +61,19 @@
 		x+=dx;
 		y+=dy;
 
-		//make tha ball bounce off the top + bottom walls
-		if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {
+		//make tha ball bounce off the top wall
+		//end game if it bounces off the bottom wall
+		//unless paddle is there
+		if(y + dy < ballRadius) {
 		    dy = -dy;
+		} else if(y + dy > canvas.height-ballRadius) {
+			if(x > paddleX && x < paddleX + paddleWidth) {
+				dy = -dy;
+			} else {
+				alert("GAME OVER");
+				document.location.reload();
+				clearInterval(interval); //needed for Chrome to end game
+			}
 		}
 
 		//make the ball bounce off the left + right walls
@@ -99,7 +109,7 @@
 		}
 	}
 
-	setInterval(draw, 10); //draw the ball every 10 sec
+	var interval = setInterval(draw, 10); //draw the ball every 10 sec
 </script>
 
 </body>
