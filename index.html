@@ -38,6 +38,8 @@
 	var rightPressed = false;
 	var leftPressed = false;
 
+	var score = 0;
+
 	//bricks configuration
 	var brickRowCount = 3;
 	var brickColumnCount = 5;
@@ -82,12 +84,26 @@
 		for(var c = 0; c < brickColumnCount; c++) {
 			for(var r = 0; r < brickRowCount; r++) {
 				var b = bricks[c][r];
-				if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
-        	dy = -dy;
-        	bricks[c][r].status = 0;
+				if(b.status == 1) {
+					if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
+	        	dy = -dy;
+	        	bricks[c][r].status = 0;
+	        	score++;
+	        	if(score == brickRowCount * brickColumnCount) {
+	        		alert("YOU WIN!");
+	        		document.location.reload();
+	        		clearInterval(interval); // Needed for Chrome to end game
+	        	}
+	        }
         }
 			}
 		}
+	}
+
+	function drawScore() {
+		context.font = "16px Arial";
+		context.fillStyle = "#0095DD";
+		context.fillText("Score: " + score, 8, 20);
 	}
 
 	function drawBall() {
@@ -129,6 +145,7 @@
 		drawBricks();
 		drawBall();
 		drawPaddle();
+		drawScore();
 		collisionDetection();
 		x+=dx;
 		y+=dy;
@@ -142,7 +159,7 @@
 			if(x > paddleX && x < paddleX + paddleWidth) {
 				dy = -dy;
 			} else {
-				//alert("GAME OVER");
+				alert("GAME OVER");
 				document.location.reload();
 				clearInterval(interval); //needed for Chrome to end game
 			}
