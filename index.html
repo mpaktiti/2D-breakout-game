@@ -60,6 +60,7 @@
 	//add listeners for control buttons
 	document.addEventListener("keydown", keyDownHandler, false);
 	document.addEventListener("keyup", keyUpHandler, false);
+	document.addEventListener("mousemove", mouseMoveHandler, false);
 
 	//check if the right or left arrow has been pressed
 	function keyDownHandler(e) {
@@ -77,6 +78,13 @@
 		} else if(e.key == "Left" || e.key == "ArrowLeft") {
 			leftPressed = false;
 		}
+	}
+
+	function mouseMoveHandler(e) {
+    var relativeX = e.clientX - canvas.offsetLeft;
+    if(relativeX > 0 && relativeX < canvas.width) {
+        paddleX = relativeX - paddleWidth/2;
+    }
 	}
 
 	//calculate if the ball has hit a brick
